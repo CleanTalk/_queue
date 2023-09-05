@@ -172,7 +172,10 @@ class Queue
 					$this->api_key,
 					array(
 						'firewall_updating_id' => $fw_stats->updating_id,
-						'stage'                => 'Repeat ' . $stage_to_execute['name']
+						'stage'                => 'Repeat ' .
+                                is_array($stage_to_execute['name'])
+                                    ? $stage_to_execute['name'][0] . '::' . $stage_to_execute['name'][1]
+                                    : $stage_to_execute['name']
 					),
 					array('async')
 				);
