@@ -4,6 +4,8 @@ namespace Cleantalk\Common\Queue;
 
 use Cleantalk\Common\Firewall\Firewall;
 use Cleantalk\Common\Mloader\Mloader;
+use Cleantalk\Common\Queue\Exceptions\QueueError;
+use Cleantalk\Common\Queue\Exceptions\QueueExit;
 
 class Queue
 {
@@ -90,8 +92,12 @@ class Queue
 		$this->saveQueue($this->queue);
 	}
 
-	public function executeStage()
+    /**
+     * @throws QueueExit
+     */
+    public function executeStage()
 	{
+        // @ToDo need to replace this Firewall dependency
 		$fw_stats = Firewall::getFwStats();
 		$stage_to_execute = null;
 
@@ -107,7 +113,7 @@ class Queue
 			$this->refreshQueue();
 
 			if ($this->queue['stages'][$this->unstarted_stage]['pid'] !== $this->pid) {
-				return true;
+				throw new QueueExit('Queue pid is wrong for the stage ' . $this->queue['stages'][$this->unstarted_stage]['name']);
 			}
 
 			$stage_to_execute = &$this->queue['stages'][$this->unstarted_stage];
@@ -130,7 +136,7 @@ class Queue
 						$result = $class_to_execute::$method_to_execute($this->api_key);
 					}
 				} else {
-					return array('error' => $class_to_execute . '::'. $method_to_execute . ' is not a callable function.');
+                    throw new QueueError($class_to_execute . '::'. $method_to_execute . ' is not a callable function.');
 				}
 
 			} else {
@@ -146,7 +152,7 @@ class Queue
 						$result = $stage_to_execute['name']();
 					}
 				} else {
-					return array('error' => $stage_to_execute['name'] . ' is not a callable function.');
+                    throw new QueueError($stage_to_execute['name'] . ' is not a callable function.');
 				}
 			}
 
@@ -206,7 +212,7 @@ class Queue
 
 		}
 
-		return null;
+        throw new QueueExit('No stage to execute. Exit.');
 	}
 
     public function isQueueInProgress()
