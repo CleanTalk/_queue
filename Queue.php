@@ -48,21 +48,21 @@ class Queue
     {
         /** @var \Cleantalk\Common\StorageHandler\StorageHandler $storage_handler_class */
         $storage_handler_class = Mloader::get('StorageHandler');
-        return $storage_handler_class::getSetting(self::QUEUE_NAME);
+        return $storage_handler_class->getSetting(self::QUEUE_NAME);
     }
 
     public static function clearQueue()
     {
         /** @var \Cleantalk\Common\StorageHandler\StorageHandler $storage_handler_class */
         $storage_handler_class = Mloader::get('StorageHandler');
-        return $storage_handler_class::deleteSetting(self::QUEUE_NAME);
+        return $storage_handler_class->deleteSetting(self::QUEUE_NAME);
     }
 
     public function saveQueue($queue)
     {
         /** @var \Cleantalk\Common\StorageHandler\StorageHandler $storage_handler_class */
         $storage_handler_class = Mloader::get('StorageHandler');
-        return $storage_handler_class::saveSetting(self::QUEUE_NAME, $queue);
+        return $storage_handler_class->saveSetting(self::QUEUE_NAME, $queue);
     }
 
     /**
