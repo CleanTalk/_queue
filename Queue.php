@@ -169,11 +169,12 @@ class Queue
                 /** @var \Cleantalk\Common\RemoteCalls\RemoteCalls $remote_calls_class */
                 $remote_calls_class = Mloader::get('RemoteCalls');
                 return $remote_calls_class::perform(
-                    'sfw_update__worker',
+                    'sfw_update',
                     'apbct',
                     $this->api_key,
                     array(
                         'firewall_updating_id' => $fw_stats->updating_id,
+                        'worker' => 1,
                         'stage' => 'Repeat ' .
                         is_array($stage_to_execute['name'])
                             ? $stage_to_execute['name'][0] . '::' . $stage_to_execute['name'][1]
