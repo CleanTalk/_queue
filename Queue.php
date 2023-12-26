@@ -48,7 +48,7 @@ class Queue
     {
         /** @var \Cleantalk\Common\StorageHandler\StorageHandler $storage_handler_class */
         $storage_handler_class = Mloader::get('StorageHandler');
-        $storage_handler_class = new $storage_handler_class;
+        $storage_handler_class = new $storage_handler_class();
         return $storage_handler_class->getSetting(self::QUEUE_NAME);
     }
 
@@ -56,7 +56,7 @@ class Queue
     {
         /** @var \Cleantalk\Common\StorageHandler\StorageHandler $storage_handler_class */
         $storage_handler_class = Mloader::get('StorageHandler');
-        $storage_handler_class = new $storage_handler_class;
+        $storage_handler_class = new $storage_handler_class();
         return $storage_handler_class->deleteSetting(self::QUEUE_NAME);
     }
 
@@ -64,7 +64,7 @@ class Queue
     {
         /** @var \Cleantalk\Common\StorageHandler\StorageHandler $storage_handler_class */
         $storage_handler_class = Mloader::get('StorageHandler');
-        $storage_handler_class = new $storage_handler_class;
+        $storage_handler_class = new $storage_handler_class();
         return $storage_handler_class->saveSetting(self::QUEUE_NAME, $queue);
     }
 
